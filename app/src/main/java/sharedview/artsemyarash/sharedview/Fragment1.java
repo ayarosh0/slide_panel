@@ -41,7 +41,7 @@ public class Fragment1 extends Fragment {
 
             @Override
             public void onPanelStateChanged(View panel, SlidingUpPanelLayout.PanelState previousState, SlidingUpPanelLayout.PanelState newState) {
-                if (newState == SlidingUpPanelLayout.PanelState.EXPANDED) {
+                if (newState == SlidingUpPanelLayout.PanelState.EXPANDED && recyclerView.getAdapter()==null) {
                     recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
                     recyclerView.setAdapter(new ArrayAdapter<String, ViewHolder>(aaa) {
                         @Override
