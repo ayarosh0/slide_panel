@@ -1,19 +1,13 @@
 package sharedview.artsemyarash.sharedview;
 
-import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.view.ViewCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.transition.Fade;
-import android.transition.TransitionInflater;
-import android.transition.TransitionSet;
-import android.view.View;
+import android.support.v4.app.FragmentActivity;
+import android.view.KeyEvent;
 
 public class MainActivity extends FragmentActivity {
-
+    Fragment1 f;
     public static final long FADE_DEFAULT_TIME = 300;
     public static final long MOVE_DEFAULT_TIME = 1000;
 
@@ -24,12 +18,27 @@ public class MainActivity extends FragmentActivity {
         performTransition();
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) {
+            if (f != null) {
+                f.hidePanel();
+            }
+        }
+        if (keyCode == KeyEvent.KEYCODE_VOLUME_UP){
+            if (f != null) {
+                f.showPanel();
+            }
+        }
+        return true;
+    }
+
     private void performTransition() {
         if (isDestroyed()) {
             return;
         }
         FragmentManager fm = getFragmentManager();
-        Fragment f = new Fragment1();
+        f = new Fragment1();
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
         fragmentTransaction.replace(R.id.container, f);
         fragmentTransaction.commitAllowingStateLoss();
