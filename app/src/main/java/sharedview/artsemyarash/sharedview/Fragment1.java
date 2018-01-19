@@ -29,6 +29,8 @@ import java.util.ArrayList;
 public class Fragment1 extends Fragment {
     private float _yDelta;
     private SlidingUpPanelLayout slidingUpPanelLayout;
+    private boolean listWasExpanded = false;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -41,7 +43,7 @@ public class Fragment1 extends Fragment {
         slidingUpPanelLayout.addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
             @Override
             public void onPanelSlide(View panel, float slideOffset) {
-                if (panel.getY() <= slidingUpPanelLayout.getHeight() - dpToPx(100)) {
+                if (panel.getY() <= slidingUpPanelLayout.getHeight() - dpToPx(100) && !listWasExpanded) {
                     showPanel();
                 }
             }
@@ -49,6 +51,8 @@ public class Fragment1 extends Fragment {
             @Override
             public void onPanelStateChanged(View panel, SlidingUpPanelLayout.PanelState previousState, SlidingUpPanelLayout.PanelState newState) {
                 if (newState == SlidingUpPanelLayout.PanelState.EXPANDED && recyclerView.getAdapter() == null) {
+                    listWasExpanded = true;
+                    hidePanel();
                     recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
                     recyclerView.setAdapter(new ArrayAdapter<String, ViewHolder>(aaa) {
                         @Override
@@ -76,6 +80,7 @@ public class Fragment1 extends Fragment {
                 }
                 if (newState == SlidingUpPanelLayout.PanelState.COLLAPSED) {
                     recyclerView.setAdapter(null);
+                    listWasExpanded = false;
                 }
             }
         });
